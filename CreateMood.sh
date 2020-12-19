@@ -4,12 +4,35 @@
 # in the listed output, and adds the applications in specific mood variable.
 
 
-for app in /usr/share/applications/*.desktop ~/.local/share/applications/*.desktop;
-do 
-	# extracting the application name from the path 
-	$basename = `basename "$app"`;
+apps=( )
 
-	# the applications has the extension of .desktop,
-	# this line removes the extension.
-	echo "${basename::-8}";
-done
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    #find /usr/share/applications ~/.local/share/applications -maxdepth 1 -type f -exec basename {} .desktop \; fits the result
+    #applications += find /usr/share/applications ~/.local/share/applications -maxdepth 1 -type f -exec basename {} .desktop \;
+    #mapfile -d $'\0' array << `(find /usr/share/applications ~/.local/share/applications -maxdepth 1 -type f -exec basename {} .desktop \; -print0 )`
+    
+    #find /usr/share/applications ~/.local/share/applications -type f -exec basename {} .desktop \; | while read f; do
+    #    echo "$f "
+    #sdone
+    
+    while IFS= read -r -d '' filename; do
+        apps+=( "$filename" )
+    done < <(find /usr/share/applications ~/.local/share/applications -type f -exec basename {} .desktop \; -printf '\0')
+    
+    
+    for file in "${apps[@]}"; do
+        echo $file
+    done
+    
+    
+    # it assings a one line
+    #mapfile -t apps < <(find /usr/share/applications ~/.local/share/applications -type f -exec basename {} .desktop \; )
+    
+    #applications = (` find /usr/share/applications ~/.local/share/applications -maxdepth 1 -type f -exec basename {} .desktop \;`)
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "macos"
+fi
+
+# finds the applications of the user in linux environments
+#find /usr/share/applications ~/.local/share/applications -maxdepth 1 -type f -exec basename {} .desktop \;
+
