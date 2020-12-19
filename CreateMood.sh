@@ -15,10 +15,7 @@ function fillApps(){
         while IFS= read -r -d '' filename; do
             apps+=( "$filename" )
         done < <(find /usr/share/applications ~/.local/share/applications -type f -exec basename {} .desktop \; -printf '\0')
-        
-        for file in "${apps[@]}"; do
-            echo $file
-        done
+        displayApps
         
         elif [[ "$OSTYPE" == "darwin"* ]]; then
         echo "macos"
@@ -89,6 +86,7 @@ function updateMood(){
     
 }
 
+# Function that deletes the Mood if exist.
 function deleteMood(){
     echo -e "Plese enter the Mood name that you want to delete"
     read moodName
@@ -104,6 +102,7 @@ function deleteMood(){
     main
 }
 
+# main function
 function main (){
 
     echo -e "This script helps you to create a Mood for your wishes.\nPlease select the operation number
