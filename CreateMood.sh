@@ -6,7 +6,7 @@
 
 apps=( )
 
-# function for getting the applications based on the user Operating System.
+# function for getting the applications in the Operating System.
 # assings the apps array.
 function fillApps(){
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -16,9 +16,6 @@ function fillApps(){
             apps+=( "$filename" )
         done < <(find /usr/share/applications ~/.local/share/applications -type f -exec basename {} .desktop \; -printf '\0')
         displayApps
-        
-        elif [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "macos"
     fi
     
 }
